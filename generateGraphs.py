@@ -11,8 +11,8 @@ def save_file(nome):                       # Saves the file in a specific result
     return 0
 
 def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
-    day = 1
-    fig, ax = plt.subplots()                         # Creates a figure and an axis with a light gray background
+    day = 1 #modificar 
+    fig, ax = plt.subplots()                         # Creates a figure and an axis
     ax.set_facecolor("#FFFFFF")                      # Sets the axis background to white
     plt.subplots_adjust(right=0.97, top=0.97)        # Adjusts the position of the subplots
     plt.xlabel(eixo_x, fontsize = 12, labelpad = 4)  # Sets the x-axis label
@@ -28,7 +28,7 @@ def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
 
 
 def graph_2D_generator(t,data1, data2, eixo_y_label, nome):
-    fig, ax = plt.subplots(facecolor='#C0C0C0')        # Creates a figure and an axis with a light gray background
+    fig, ax = plt.subplots()                           # Creates a figure and an axis
     ax.set_facecolor("#FFFFFF")                        # Sets the axis background to white
     eixo_x_label = "Antiviral (em %)"                  # Sets the x-axis label
     plt.subplots_adjust(right=0.97, top=0.97)          # Adjusts the position of the subplots
