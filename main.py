@@ -83,7 +83,7 @@ for w in range(len(remediocount)):
         
 remediocount = [i * 100 for i in remediocount]
 
-graph_2D_generator(t,remediocount,s[:, 128, 0],'Monócitos sucetíveis','gráfico-s')
-graph_2D_generator(t,remediocount,i[:, 128, 0],'Monócitos infectados','gráfico-i')
-graph_2D_generator(t,remediocount,v[:, 128, 0],'Partículas virais','gráfico-v')
-graph_2D_generator(t,remediocount,z[:, 128, 0],'Linfócitos T','gráfico-z')
+graph_2D_generator(t,remediocount,s[:, 128, 0],u'Monócitos/\u03bcL','gráfico-s')
+graph_2D_generator(t,remediocount,i[:, 128, 0],u'Monócitos/\u03bcL','gráfico-i')
+graph_2D_generator(t,remediocount,v[:, 128, 0],u'Partículas virais/\u03bcL','gráfico-v')
+graph_2D_generator(t,remediocount,z[:, 128, 0],u'Linfócitos T/\u03bcL','gráfico-z')
