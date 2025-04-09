@@ -24,66 +24,68 @@ wks_d = 0.03 * wks_IFN                               #estímulo de produção de
 wks_beta1 = beta + wks_eta * nu / delta
 wks_c1 = wks_c + wks_d * wks_eta / delta
 
-remediocount = [i * 0.001 for i in range(1001)]
-
 h = 0.01                                             #parâmetro de precisão para método numérico de Runge-Kutta
 h1 = h/2                                             #parâmetro intermediário de precisão para método numérico de Runge-Kutta
 t = np.arange(0, 10+h, h)                            #vetor de tempo, até 10 dias
 time = len(t)
-pregnancy = len(remediocount)
 kutta = 4
 
-s = np.zeros((pregnancy,time,kutta))
-v = np.zeros((pregnancy,time,kutta))
-i = np.zeros((pregnancy,time,kutta))
-z = np.zeros((pregnancy,time,kutta))
+remediocount = [i * 0.001 for i in range(1001)]
+num_levels = len(remediocount)
 
-ds = np.zeros((pregnancy,time - 1,kutta))
-dv = np.zeros((pregnancy,time - 1,kutta))
-di = np.zeros((pregnancy,time - 1,kutta))
-dz = np.zeros((pregnancy,time - 1,kutta))
+s = np.zeros((num_levels,time,kutta))       # Array to store susceptible monocytes at each time step and Runge-Kutta stage
+v = np.zeros((num_levels,time,kutta))       # Array to store viral particles at each time step and Runge-Kutta stage
+i = np.zeros((num_levels,time,kutta))       # Array to store infected monocytes at each time step and Runge-Kutta stage
+z = np.zeros((num_levels,time,kutta))       # Array to store T lymphocytes at each time step and Runge-Kutta stage
 
-incremento_s = np.zeros((pregnancy,time))
-incremento_i = np.zeros((pregnancy,time))
-incremento_v = np.zeros((pregnancy,time))
-incremento_z = np.zeros((pregnancy,time))
+ds = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for susceptible monocytes
+dv = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for viral particles
+di = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for infected monocytes
+dz = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for T lymphocytes
+
+incremento_s = np.zeros((num_levels,time))  # Array to store increments for susceptible monocytes
+incremento_i = np.zeros((num_levels,time))  # Array to store increments for infected monocytes
+incremento_v = np.zeros((num_levels,time))  # Array to store increments for viral particles
+incremento_z = np.zeros((num_levels,time))  # Array to store increments for T lymphocytes
 
 ###############################
 
-s[:,0,0] = 250 
-i[:,0,0] = 10
-v[:,0,0] = 165
-z[:,0,0] = 2000 
+# Initial values for the populations
+s[:,0,0] = 250        # Susceptible monocytes per microliter
+i[:,0,0] = 10         # Infected monocytes per microliter
+v[:,0,0] = 165        # Viral particles per microliter
+z[:,0,0] = 2000       # T lymphocytes per microliter
 
-day = 3#1/1.33/2/3/4/5
+for w in range(num_levels):            # Loop through each remediocount value
+    for n in range(time - 1):          # Loop through each time step (except the last one)
+        for r in range(kutta):         # Loop through the Runge-Kutta stages
 
-for w in range(len(remediocount)):
-    for n in range(time - 1):
-        for r in range(kutta):
-            ds[w,n,r] = wks_mu[0] - alpha * s[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]
-            di[w,n,r] = a[2] * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-            dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]
-            dz[w,n,r] = wks_eta[0] + wks_c[0] * i[w,n,r] + wks_d[0] * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
+            ds[w,n,r] = wks_mu[0] - alpha * s[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]                             # Rate of change for susceptible monocytes
+            di[w,n,r] = a[2] * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]               # Rate of change for infected monocytes
+            dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]  # Rate of change for viral particles
+            dz[w,n,r] = wks_eta[0] + wks_c[0] * i[w,n,r] + wks_d[0] * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]  # Rate of change for T lymphocytes
 
-            if r < (kutta - 1):
+            if r < (kutta - 1):  # Update intermediate stages for Runge-Kutta
                 s[w,n,r+1] = s[w,n,r] + h1 * ds[w,n,r]
                 i[w,n,r+1] = i[w,n,r] + h1 * di[w,n,r]
                 v[w,n,r+1] = v[w,n,r] + h1 * dv[w,n,r]
                 z[w,n,r+1] = z[w,n,r] + h1 * dz[w,n,r]
 
-        incremento_s[w,n] = (h/6) * (ds[w,n,0] + 2 * ds[w,n,1] + 2 * ds[w,n,2] + ds[w,n,3])
-        incremento_i[w,n] = (h/6) * (di[w,n,0] + 2 * di[w,n,1] + 2 * di[w,n,2] + di[w,n,3])
-        incremento_v[w,n] = (h/6) * (dv[w,n,0] + 2 * dv[w,n,1] + 2 * dv[w,n,2] + dv[w,n,3])
-        incremento_z[w,n] = (h/6) * (dz[w,n,0] + 2 * dz[w,n,1] + 2 * dz[w,n,2] + dz[w,n,3])
-
-        s[w,n+1,0] = s[w,n,0] + incremento_s[w,n]
+        # Increment for S, I, V e T
+        incremento_s[w,n] = (h/6) * (ds[w,n,0] + 2 * ds[w,n,1] + 2 * ds[w,n,2] + ds[w,n,3])  
+        incremento_i[w,n] = (h/6) * (di[w,n,0] + 2 * di[w,n,1] + 2 * di[w,n,2] + di[w,n,3])  
+        incremento_v[w,n] = (h/6) * (dv[w,n,0] + 2 * dv[w,n,1] + 2 * dv[w,n,2] + dv[w,n,3])  
+        incremento_z[w,n] = (h/6) * (dz[w,n,0] + 2 * dz[w,n,1] + 2 * dz[w,n,2] + dz[w,n,3])  
+        
+        # Update S, I, V e T for the next time step
+        s[w,n+1,0] = s[w,n,0] + incremento_s[w,n]  
         i[w,n+1,0] = i[w,n,0] + incremento_i[w,n]
         v[w,n+1,0] = v[w,n,0] + incremento_v[w,n]
         z[w,n+1,0] = z[w,n,0] + incremento_z[w,n]
-        
-remediocount = [i * 100 for i in remediocount]
 
-graph_2D_generator(t,remediocount,s[:, 128, 0],u'Monócitos/\u03bcL','gráfico-s')
-graph_2D_generator(t,remediocount,i[:, 128, 0],u'Monócitos/\u03bcL','gráfico-i')
-graph_2D_generator(t,remediocount,v[:, 128, 0],u'Partículas virais/\u03bcL','gráfico-v')
-graph_2D_generator(t,remediocount,z[:, 128, 0],u'Linfócitos T/\u03bcL','gráfico-z')
+remediocount = [i * 100 for i in remediocount]  # Scale the remediocount values by multiplying each by 100
+
+graph_2D_generator(t, remediocount, s[:, 128, 0], u'Monócitos susceptíveis/\u03bcL', 'gráfico-s')  # Generate a graph for susceptible monocytes (s) over remediocount
+graph_2D_generator(t, remediocount, i[:, 128, 0], u'Monócitos infectados/\u03bcL', 'gráfico-i')    # Generate a graph for infected monocytes (i) over remediocount
+graph_2D_generator(t, remediocount, v[:, 128, 0], u'Partículas virais/\u03bcL', 'gráfico-v')       # Generate a graph for viral particles (v) over remediocount
+graph_2D_generator(t, remediocount, z[:, 128, 0], u'Linfócitos T/\u03bcL', 'gráfico-z')            # Generate a graph for T lymphocytes (z) over remediocount
