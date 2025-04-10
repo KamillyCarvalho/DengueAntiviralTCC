@@ -26,16 +26,15 @@ def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
     save_file(final_name)                            # Saves the graph using the save_file function
     return 0
 
-
 def graph_2D_generator(t,data1, data2, eixo_y_label, nome):
-    fig, ax = plt.subplots()                           # Creates a figure and an axis
-    ax.set_facecolor("#FFFFFF")                        # Sets the axis background to white
-    eixo_x_label = "Antiviral (em %)"                  # Sets the x-axis label
-    plt.subplots_adjust(right=0.97, top=0.97)          # Adjusts the position of the subplots
-    plt.xlabel(eixo_x_label, fontsize=12, labelpad=4)  # Sets the x-axis label
-    plt.ylabel(eixo_y_label, fontsize=12, labelpad=6)  # Sets the y-axis label
+    fig, ax = plt.subplots()                               # Creates a figure and an axis
+    ax.set_facecolor("#FFFFFF")                            # Sets the axis background to white
+    eixo_x_label = "Antiviral (em %)"                      # Sets the x-axis label
+    plt.subplots_adjust(right=0.97, top=0.97)              # Adjusts the position of the subplots
+    plt.xlabel(eixo_x_label, fontsize=12, labelpad=4)      # Sets the x-axis label
+    plt.ylabel(eixo_y_label, fontsize=12, labelpad=6)      # Sets the y-axis label
     plt.plot(data1, data2, '#00c2b0', label='Dados', linewidth=1.9)  # Plots the data
     plt.grid(color='gray', linestyle='-', linewidth=0.15)  # Adds a grid to the graph
-    final_name = nome + '.png'                         # Final file name
-    save_file(final_name)                              # Saves the graph using the save_file function
+    final_name = nome + '.png'                             # Final file name
+    save_file(final_name)                                  # Saves the graph using the save_file function
     return 0
