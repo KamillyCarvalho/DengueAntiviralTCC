@@ -20,11 +20,11 @@ wks_c1 = wks_c + wks_d * wks_eta / delta
 h = 0.01                                             #parâmetro de precisão para método numérico de Runge-Kutta
 h1 = h/2                                             #parâmetro intermediário de precisão para método numérico de Runge-Kutta
 t = np.arange(0, 10+h, h)                            #vetor de tempo, até 10 dias
-time = len(t)
-kutta = 4
+time = len(t)                                        # Number of time steps based on the time vector
+kutta = 4                                            # Number of stages in the Runge-Kutta method
 
-remediocount = [i * 0.001 for i in range(1001)]
-num_levels = len(remediocount)
+remediocount = [i * 0.001 for i in range(1001)]      # Array of antiviral levels (from 0 to 1 in steps of 0.001)
+num_levels = len(remediocount)                       # Size of the vector that stores the antiviral values
 
 ###############################
 
