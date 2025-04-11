@@ -2,16 +2,16 @@ from project_libraries import *
 
 # Parameters for the model
 a = 0.003                                            #taxa de invasão bem-sucedida em um monócito susceptível
-wks_mu = 80 * 1                                      #monócitos produzidos/dia.uL
-wks_eta = 0.265 * 1                                  #linfo-T produzidos/dia.uL para equilíbrio de 2000 linfo-T na ausência de infecção
+wks_mu = 80                                          #monócitos produzidos/dia.uL
+wks_eta = 0.265                                      #linfo-T produzidos/dia.uL para equilíbrio de 2000 linfo-T na ausência de infecção
 alpha = 1/3                                          #1/período de vida de um monócito em dias
 beta = 1/0.5                                         #1/período de infecção de um monócito
 gamma = 0.8                                          #taxa de liberação de vírus
 k = 20                                               #taxa de multiplicação de vírus
 nu = 0.001                                           #taxa de eliminação de monócito infectado
 delta = 1/365                                        #1/período de vida de linfo-T
-wks_c = 0.01 * 1                                     #estímulo de produção de linfócitos-T pela densidade de monócitos infectados
-wks_d = 0.03 * 1                                     #estímulo de produção de linfócitos-T pelos contatos com monócitos infectados
+wks_c = 0.01                                         #estímulo de produção de linfócitos-T pela densidade de monócitos infectados
+wks_d = 0.03                                         #estímulo de produção de linfócitos-T pelos contatos com monócitos infectados
 wks_beta1 = beta + wks_eta * nu / delta
 wks_c1 = wks_c + wks_d * wks_eta / delta
 
