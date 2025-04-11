@@ -1,14 +1,10 @@
-# import numpy as np
-import pandas as pd
-import random as rd
-import time
-time.time()
-
-from generateGraphs import *
+from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
+from generateGraphs import * 
 from config_variables import *
+# time.time()
 
 for w in range(num_levels):            # Loop through each remediocount value
-    for n in range(time - 1):          # Loop through each time step (except the last one)
+    for n in range(time_counts - 1):          # Loop through each time step (except the last one)
         for r in range(kutta):         # Loop through the Runge-Kutta stages
 
             ds[w,n,r] = wks_mu[0] - alpha * s[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]                             # Rate of change for susceptible monocytes

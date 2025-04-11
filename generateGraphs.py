@@ -1,6 +1,5 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import os
+from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
+
 
 def save_file(nome):                       # Saves the file in a specific results folder
     output_dir = "resultados"              # Name of the output folder

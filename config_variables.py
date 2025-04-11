@@ -1,4 +1,4 @@
-import numpy as np
+from project_libraries import *
 
 wks_s = np.array([1.0, 1.96, 2.425, 3.63])           #% da população de monócitos ao longo da gravidez em relação a não grávida
 wks_z = np.array([1.0, 0.81, 0.64, 0.57])            #% da população de linfócitos ao longo da gravidez em relação a não grávida
@@ -20,7 +20,7 @@ wks_c1 = wks_c + wks_d * wks_eta / delta
 h = 0.01                                             #parâmetro de precisão para método numérico de Runge-Kutta
 h1 = h/2                                             #parâmetro intermediário de precisão para método numérico de Runge-Kutta
 t = np.arange(0, 10+h, h)                            #vetor de tempo, até 10 dias
-time = len(t)                                        # Number of time steps based on the time vector
+time_counts = len(t)                                        # Number of time steps based on the time vector
 kutta = 4                                            # Number of stages in the Runge-Kutta method
 
 remediocount = [i * 0.001 for i in range(1001)]      # Array of antiviral levels (from 0 to 1 in steps of 0.001)
@@ -28,20 +28,20 @@ num_levels = len(remediocount)                       # Size of the vector that s
 
 ###############################
 
-s = np.zeros((num_levels,time,kutta))       # Array to store susceptible monocytes at each time step and Runge-Kutta stage
-v = np.zeros((num_levels,time,kutta))       # Array to store viral particles at each time step and Runge-Kutta stage
-i = np.zeros((num_levels,time,kutta))       # Array to store infected monocytes at each time step and Runge-Kutta stage
-z = np.zeros((num_levels,time,kutta))       # Array to store T lymphocytes at each time step and Runge-Kutta stage
+s = np.zeros((num_levels,time_counts,kutta))       # Array to store susceptible monocytes at each time step and Runge-Kutta stage
+v = np.zeros((num_levels,time_counts,kutta))       # Array to store viral particles at each time step and Runge-Kutta stage
+i = np.zeros((num_levels,time_counts,kutta))       # Array to store infected monocytes at each time step and Runge-Kutta stage
+z = np.zeros((num_levels,time_counts,kutta))       # Array to store T lymphocytes at each time step and Runge-Kutta stage
 
-ds = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for susceptible monocytes
-dv = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for viral particles
-di = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for infected monocytes
-dz = np.zeros((num_levels,time - 1,kutta))  # Array to store rate of change for T lymphocytes
+ds = np.zeros((num_levels,time_counts - 1,kutta))  # Array to store rate of change for susceptible monocytes
+dv = np.zeros((num_levels,time_counts - 1,kutta))  # Array to store rate of change for viral particles
+di = np.zeros((num_levels,time_counts - 1,kutta))  # Array to store rate of change for infected monocytes
+dz = np.zeros((num_levels,time_counts - 1,kutta))  # Array to store rate of change for T lymphocytes
 
-incremento_s = np.zeros((num_levels,time))  # Array to store increments for susceptible monocytes
-incremento_i = np.zeros((num_levels,time))  # Array to store increments for infected monocytes
-incremento_v = np.zeros((num_levels,time))  # Array to store increments for viral particles
-incremento_z = np.zeros((num_levels,time))  # Array to store increments for T lymphocytes
+incremento_s = np.zeros((num_levels,time_counts))  # Array to store increments for susceptible monocytes
+incremento_i = np.zeros((num_levels,time_counts))  # Array to store increments for infected monocytes
+incremento_v = np.zeros((num_levels,time_counts))  # Array to store increments for viral particles
+incremento_z = np.zeros((num_levels,time_counts))  # Array to store increments for T lymphocytes
 
 ###############################
 
