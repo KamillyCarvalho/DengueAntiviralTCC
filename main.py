@@ -3,14 +3,14 @@ from generateGraphs import *
 from config_variables import *
 # time.time()
 
-for w in range(num_levels):            # Loop through each remediocount value
+for w in range(num_levels):                   # Loop through each remediocount value
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
-        for r in range(kutta):         # Loop through the Runge-Kutta stages
+        for r in range(kutta):                # Loop through the Runge-Kutta stages
 
-            ds[w,n,r] = wks_mu[0] - alpha * s[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]                             # Rate of change for susceptible monocytes
-            di[w,n,r] = a[2] * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]               # Rate of change for infected monocytes
-            dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a[2] * s[w,n,r] * v[w,n,r]  # Rate of change for viral particles
-            dz[w,n,r] = wks_eta[0] + wks_c[0] * i[w,n,r] + wks_d[0] * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]  # Rate of change for T lymphocytes
+            ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]                             # Rate of change for susceptible monocytes
+            di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]               # Rate of change for infected monocytes
+            dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]  # Rate of change for viral particles
+            dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]  # Rate of change for T lymphocytes
 
             if r < (kutta - 1):  # Update intermediate stages for Runge-Kutta
                 s[w,n,r+1] = s[w,n,r] + h1 * ds[w,n,r]
