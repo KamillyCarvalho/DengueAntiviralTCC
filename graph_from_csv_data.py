@@ -1,7 +1,4 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import os
-
+from project_libraries import *
 from generate_graphs import * 
 
 def graph_3data_generator(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_y):
