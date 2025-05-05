@@ -1,14 +1,24 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import os
+from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
 
 def save_file(nome):                       # Saves the file in a specific results folder
-    output_dir = "resultados"              # Name of the output folder
+    output_dir = "results"                 # Name of the output folder
     if not os.path.exists(output_dir):     # Checks if the folder exists
         os.makedirs(output_dir)            # Creates the folder if it does not exist
     name = os.path.join(output_dir, nome)  # Full path of the file
     plt.savefig(name, format='png')        # Saves the graph in PNG format
     return 0
+
+def save_data_to_csv(x_data, y_data, file_name, x_label, y_label): #Saves the data being plotted to a CSV file.
+    output_dir = "results"              # Directory to save the CSV file
+    if not os.path.exists(output_dir):  # Check if the directory exists
+        os.makedirs(output_dir)         # Create the directory if it doesn't exist
+
+    file_path = os.path.join(output_dir, file_name + ".csv")  # Full path for the CSV file
+   
+    with open(file_path, "w") as file:        # Save the data to a CSV file
+        file.write(f"{x_label},{y_label}\n")  # Write the header
+        for x, y in zip(x_data, y_data):
+            file.write(f"{x},{y}\n")          # Write the data rows
 
 def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
     day = 1 #modificar 
@@ -26,16 +36,15 @@ def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
     save_file(final_name)                            # Saves the graph using the save_file function
     return 0
 
-
 def graph_2D_generator(t,data1, data2, eixo_y_label, nome):
-    fig, ax = plt.subplots()                           # Creates a figure and an axis
-    ax.set_facecolor("#FFFFFF")                        # Sets the axis background to white
-    eixo_x_label = "Antiviral (em %)"                  # Sets the x-axis label
-    plt.subplots_adjust(right=0.97, top=0.97)          # Adjusts the position of the subplots
-    plt.xlabel(eixo_x_label, fontsize=12, labelpad=4)  # Sets the x-axis label
-    plt.ylabel(eixo_y_label, fontsize=12, labelpad=6)  # Sets the y-axis label
+    fig, ax = plt.subplots()                               # Creates a figure and an axis
+    ax.set_facecolor("#FFFFFF")                            # Sets the axis background to white
+    eixo_x_label = "Antiviral (em %)"                      # Sets the x-axis label
+    plt.subplots_adjust(right=0.97, top=0.97)              # Adjusts the position of the subplots
+    plt.xlabel(eixo_x_label, fontsize=12, labelpad=4)      # Sets the x-axis label
+    plt.ylabel(eixo_y_label, fontsize=12, labelpad=6)      # Sets the y-axis label
     plt.plot(data1, data2, '#00c2b0', label='Dados', linewidth=1.9)  # Plots the data
     plt.grid(color='gray', linestyle='-', linewidth=0.15)  # Adds a grid to the graph
-    final_name = nome + '.png'                         # Final file name
-    save_file(final_name)                              # Saves the graph using the save_file function
+    final_name = nome + '.png'                             # Final file name
+    save_file(final_name)                                  # Saves the graph using the save_file function
     return 0
