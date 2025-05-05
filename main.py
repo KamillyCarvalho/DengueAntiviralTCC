@@ -3,19 +3,27 @@ from generateGraphs import *
 from config_variables import *
 # time.time()
 
+antiviral = "psi" #rho, xi, psi
+
 for w in range(num_levels):                   # Loop through each remediocount value
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
         for r in range(kutta):                # Loop through the Runge-Kutta stages
-
-            # ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]                             # Rate of change for susceptible monocytes
-            # di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]               # Rate of change for infected monocytes
-            # dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]  # Rate of change for viral particles
-            # dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]  # Rate of change for T lymphocytes
             
-            ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])                          # Rate of change for susceptible monocytes
-            di[w,n,r] = (1 - remediocount[w]) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]               # Rate of change for infected monocytes
-            dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w]) # Rate of change for viral particles
-            dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]  # Rate of change for T lymphocytes
+            if antiviral == "rho":
+                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
+                dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
+            elif antiviral == "xi":
+                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
+                di[w,n,r] = (1 - remediocount[w]) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
+                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
+                dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
+            elif antiviral == "psi":
+                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
+                dv[w,n,r] = k * i[w,n,r] - (1 + remediocount[w]) * gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
 
             if r < (kutta - 1):  # Update intermediate stages for Runge-Kutta
                 s[w,n,r+1] = s[w,n,r] + h1 * ds[w,n,r]
@@ -41,3 +49,8 @@ graph_2D_generator(t, remediocount, s[:, 128, 0], u'Monócitos susceptíveis/\u0
 graph_2D_generator(t, remediocount, i[:, 128, 0], u'Monócitos infectados/\u03bcL', 'gráfico-i')    # Generate a graph for infected monocytes (i) over remediocount
 graph_2D_generator(t, remediocount, v[:, 128, 0], u'Partículas virais/\u03bcL', 'gráfico-v')       # Generate a graph for viral particles (v) over remediocount
 graph_2D_generator(t, remediocount, z[:, 128, 0], u'Linfócitos T/\u03bcL', 'gráfico-z')            # Generate a graph for T lymphocytes (z) over remediocount
+
+save_data_to_csv(remediocount, s[:, 128, 0], "susceptible_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos susceptiveis/uL")
+save_data_to_csv(remediocount, i[:, 128, 0], "infected_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos infectados/uL")
+save_data_to_csv(remediocount, v[:, 128, 0], "viral_particles_antiviral_"+antiviral, "Antiviral", "Particulas virais/uL")
+save_data_to_csv(remediocount, z[:, 128, 0], "t_lymphocytes_antiviral_"+antiviral, "Antiviral", "Linfocitos T/uL")
