@@ -2,7 +2,7 @@ from project_libraries import *  # Importing necessary libraries for numerical c
 
 
 def save_file(nome):                       # Saves the file in a specific results folder
-    output_dir = "resultados"              # Name of the output folder
+    output_dir = "results"              # Name of the output folder
     if not os.path.exists(output_dir):     # Checks if the folder exists
         os.makedirs(output_dir)            # Creates the folder if it does not exist
     name = os.path.join(output_dir, nome)  # Full path of the file
