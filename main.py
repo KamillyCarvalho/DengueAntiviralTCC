@@ -11,6 +11,11 @@ for w in range(num_levels):                   # Loop through each remediocount v
             di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]               # Rate of change for infected monocytes
             dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]  # Rate of change for viral particles
             dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]  # Rate of change for T lymphocytes
+            
+            # ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]                             # Rate of change for susceptible monocytes
+            # di[w,n,r] = (1 - remediocount[w]) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]               # Rate of change for infected monocytes
+            # dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w]) # Rate of change for viral particles
+            # dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]  # Rate of change for T lymphocytes
 
             if r < (kutta - 1):  # Update intermediate stages for Runge-Kutta
                 s[w,n,r+1] = s[w,n,r] + h1 * ds[w,n,r]
