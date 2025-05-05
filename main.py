@@ -1,5 +1,5 @@
 from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
-from generateGraphs import * 
+from generate_graphs import * 
 from config_variables import *
 # time.time()
 
