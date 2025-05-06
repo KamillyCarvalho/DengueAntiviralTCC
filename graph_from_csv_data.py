@@ -1,7 +1,4 @@
-import pandas as pd
-import matplotlib.pyplot as plt
-import os
-
+from project_libraries import *
 from generate_graphs import * 
 
 def graph_3data_generator(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_y):
@@ -38,8 +35,18 @@ population_path = "viral_particles_antiviral" # "susceptible_monocytes_antiviral
 label_1 = "Particulas virais/uL"            # "Monocitos susceptiveis/uL", "Monocitos infectados/uL", "Particulas virais/uL","Linfocitos T/uL"
 eixo_y_label = "Partículas virais/\u03bcL"   # "Monócitos susceptíveis/\u03bcL", "Monócitos infectados/\u03bcL", "Partículas virais/\u03bcL","Linfócitos T/\u03bcL"
 
-csv1_ref = os.path.join(base_path, "results", population_path+"_rho.csv")
-csv2_ref = os.path.join(base_path, "results", population_path+"_xi.csv")
-csv3_ref = os.path.join(base_path, "results", population_path+"_psi.csv")
+# Define the paths to the CSV files for the three datasets
+csv1_ref = os.path.join(base_path, "results", population_path+"_rho.csv")  # Path for the first dataset
+csv2_ref = os.path.join(base_path, "results", population_path+"_xi.csv")   # Path for the second dataset
+csv3_ref = os.path.join(base_path, "results", population_path+"_psi.csv")  # Path for the third dataset
 
-graph_3data_generator(csv1_ref, csv2_ref, csv3_ref, eixo_y_label, 'grafico-v-3data',"Antiviral", label_1)
+# Generate the graph using the three datasets and save it as a PNG file
+graph_3data_generator(
+    csv1_ref,           # First dataset
+    csv2_ref,           # Second dataset
+    csv3_ref,           # Third dataset
+    eixo_y_label,       # Label for the Y-axis
+    'grafico-v-3data',  # Name of the output graph file
+    "Antiviral",        # Label for the X-axis
+    label_1             # Label for the Y-axis data
+)
