@@ -35,9 +35,9 @@ def graph_3data_generator(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_y):
 
 base_path = os.path.dirname(os.path.abspath(__file__))
 
-population_path = "t_lymphocytes_antiviral" # Options: "susceptible_monocytes_antiviral", "infected_monocytes_antiviral", "viral_particles_antiviral", "t_lymphocytes_antiviral"
-label_1 = "Linfocitos T/uL"             # Options: "Monocitos susceptiveis/uL", "Monocitos infectados/uL", "Particulas virais/uL","Linfocitos T/uL"
-eixo_y_label = "Linfócitos T/\u03bcL"    # Options:"Monócitos susceptíveis/\u03bcL", "Monócitos infectados/\u03bcL", "Partículas virais/\u03bcL","Linfócitos T/\u03bcL"
+population_path = "susceptible_monocytes_antiviral" # Options: "susceptible_monocytes_antiviral", "infected_monocytes_antiviral", "viral_particles_antiviral", "t_lymphocytes_antiviral"
+label_1 = "Monocitos susceptiveis/uL"            # Options: "Monocitos susceptiveis/uL", "Monocitos infectados/uL", "Particulas virais/uL","Linfocitos T/uL"
+eixo_y_label = "Monócitos suscetíveis/\u03bcL"    # Options:"Monócitos suscetíveis/\u03bcL", "Monócitos infectados/\u03bcL", "Partículas virais/\u03bcL","Linfócitos T/\u03bcL"
 
 # Define the paths to the CSV files for the three datasets
 csv1_ref = os.path.join(base_path, "results", population_path+"_rho.csv")  # Path for the first dataset
@@ -50,7 +50,7 @@ graph_3data_generator(
     csv2_ref,           # Second dataset
     csv3_ref,           # Third dataset
     eixo_y_label,       # Label for the Y-axis
-    'grafico-z-3data',  # Name of the output graph file
+    'grafico-s-3data',  # Name of the output graph file
     "Antiviral",        # Label for the X-axis
     label_1             # Label for the Y-axis data
 )
