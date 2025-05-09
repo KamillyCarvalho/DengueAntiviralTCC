@@ -23,7 +23,7 @@ csv1_ref = os.path.join(base_path, "results_csv", "antiviral_original_time_"+ po
 csv2_ref = os.path.join(base_path, "results_csv", "antiviral_rho_time_"+ population_path+".csv")   # Path for the second dataset
 csv3_ref = os.path.join(base_path, "results_csv", "antiviral_xi_time_"+ population_path+".csv")  # Path for the third dataset
 csv4_ref = os.path.join(base_path, "results_csv", "antiviral_psi_time_"+ population_path+".csv")  # Path for the third dataset
-
+print(csv1_ref)
 # Generate the graph using the three datasets and save it as a PNG file
 graph_generator_from_4_csv(
     day,                # Day of antiviral administration

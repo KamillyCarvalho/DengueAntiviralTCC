@@ -3,12 +3,12 @@ from generate_graphs import *
 from config_variables import *
 # time.time()
 
-antiviral = "psi" #rho, xi, psi
+antiviral = "xi" #rho, xi, psi
+remediocount = remediocount_linear
 
 for w in range(num_levels):                   # Loop through each remediocount value
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
         for r in range(kutta):                # Loop through the Runge-Kutta stages
-            
             if antiviral == "rho":
                 ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
@@ -45,12 +45,12 @@ for w in range(num_levels):                   # Loop through each remediocount v
 
 remediocount = [i * 100 for i in remediocount]  # Scale the remediocount values by multiplying each by 100
 
-graph_2D_generator(t, remediocount, s[:, 128, 0], u'Monócitos susceptíveis/\u03bcL', 'gráfico-s')  # Generate a graph for susceptible monocytes (s) over remediocount
-graph_2D_generator(t, remediocount, i[:, 128, 0], u'Monócitos infectados/\u03bcL', 'gráfico-i')    # Generate a graph for infected monocytes (i) over remediocount
-graph_2D_generator(t, remediocount, v[:, 128, 0], u'Partículas virais/\u03bcL', 'gráfico-v')       # Generate a graph for viral particles (v) over remediocount
-graph_2D_generator(t, remediocount, z[:, 128, 0], u'Linfócitos T/\u03bcL', 'gráfico-z')            # Generate a graph for T lymphocytes (z) over remediocount
+graph_2D_generator(t, remediocount, s[:, 128, 0], u'Monócitos susceptíveis/\u03bcL', 'grafico-s')  # Generate a graph for susceptible monocytes (s) over remediocount
+graph_2D_generator(t, remediocount, i[:, 128, 0], u'Monócitos infectados/\u03bcL', 'grafico-i')    # Generate a graph for infected monocytes (i) over remediocount
+graph_2D_generator(t, remediocount, v[:, 128, 0], u'Partículas virais/\u03bcL', 'grafico-v')       # Generate a graph for viral particles (v) over remediocount
+graph_2D_generator(t, remediocount, z[:, 128, 0], u'Linfócitos T/\u03bcL', 'grafico-z')            # Generate a graph for T lymphocytes (z) over remediocount
 
-save_data_to_csv(remediocount, s[:, 128, 0], "susceptible_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos susceptiveis/uL")
-save_data_to_csv(remediocount, i[:, 128, 0], "infected_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos infectados/uL")
-save_data_to_csv(remediocount, v[:, 128, 0], "viral_particles_antiviral_"+antiviral, "Antiviral", "Particulas virais/uL")
-save_data_to_csv(remediocount, z[:, 128, 0], "t_lymphocytes_antiviral_"+antiviral, "Antiviral", "Linfocitos T/uL")
+# save_data_to_csv(remediocount, s[:, 128, 0], "susceptible_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos susceptiveis/uL")
+# save_data_to_csv(remediocount, i[:, 128, 0], "infected_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos infectados/uL")
+# save_data_to_csv(remediocount, v[:, 128, 0], "viral_particles_antiviral_"+antiviral, "Antiviral", "Particulas virais/uL")
+# save_data_to_csv(remediocount, z[:, 128, 0], "t_lymphocytes_antiviral_"+antiviral, "Antiviral", "Linfocitos T/uL")

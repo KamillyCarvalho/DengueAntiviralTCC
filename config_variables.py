@@ -16,8 +16,13 @@ wks_beta1 = beta + wks_eta * nu / delta
 wks_c1 = wks_c + wks_d * wks_eta / delta
 
 # Parameters for the antiviral effect
-remediocount = [i * 0.001 for i in range(1001)]      # Array of antiviral levels (from 0 to 1 in steps of 0.001)
-num_levels = len(remediocount)                       # Size of the vector that stores the antiviral values
+remediocount_linear = [(i * 0.001) for i in range(1001)] #[i * 0.001 for i in range(1001)]      # Array of antiviral levels (from 0 to 1 in steps of 0.001)
+remediocount_q = [(i * 0.001)**2 for i in range(1001)]      # Array of antiviral levels (from 0 to 1 in steps of 0.001)
+remediocount_exp = [np.exp(-i * 6* 0.001)**-1 for i in range(1001)]
+max_exp = max(remediocount_exp)
+remediocount_exp = [val / max_exp for val in remediocount_exp]  # Normalizando para começar em 1 e terminar em 0
+
+num_levels = len(remediocount_linear)                       # Size of the vector that stores the antiviral values
 
 # Parameters for the Runge-Kutta method
 h = 0.01                                             # Precision parameter for the Runge-Kutta numerical method
