@@ -1,9 +1,10 @@
-from graph_from_csv_data import *
-from antiviral_adm_time import day
+# from graph_from_csv_data import *
+from generate_graphs import *
+from config_variables import day
 
 base_path = os.path.dirname(os.path.abspath(__file__))
 
-population_path = "z" # Options: "s", "i", "v", "z"
+population_path = "v" # Options: "s", "i", "v", "z"
 
 if(population_path == "s"):
     label_1 = "Monocitos susceptiveis/uL"            
@@ -20,10 +21,11 @@ elif(population_path == "z"):
 
 # Define the paths to the CSV files for the three datasets
 csv1_ref = os.path.join(base_path, "results_csv", "antiviral_original_time_"+ population_path+".csv")  # Path for the first dataset
-csv2_ref = os.path.join(base_path, "results_csv", "antiviral_rho_time_"+ population_path+".csv")   # Path for the second dataset
-csv3_ref = os.path.join(base_path, "results_csv", "antiviral_xi_time_"+ population_path+".csv")  # Path for the third dataset
-csv4_ref = os.path.join(base_path, "results_csv", "antiviral_psi_time_"+ population_path+".csv")  # Path for the third dataset
 print(csv1_ref)
+csv2_ref = os.path.join(base_path, "results_csv", "antiviral_rho_time_"+ population_path+"_day"+str(day)+".csv")   # Path for the second dataset
+csv3_ref = os.path.join(base_path, "results_csv", "antiviral_xi_time_"+ population_path+"_day"+str(day)+".csv")  # Path for the third dataset
+csv4_ref = os.path.join(base_path, "results_csv", "antiviral_psi_time_"+ population_path+"_day"+str(day)+".csv")  # Path for the third dataset
+
 # Generate the graph using the three datasets and save it as a PNG file
 graph_generator_from_4_csv(
     day,                # Day of antiviral administration

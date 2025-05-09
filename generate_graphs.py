@@ -1,4 +1,5 @@
 from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
+from config_variables import day
 
 def save_file(nome):                       # Saves the file in a specific results folder
     output_dir = "results_figures"                 # Name of the output folder

@@ -3,7 +3,7 @@ from generate_graphs import *
 from config_variables import *
 # time.time()
 
-antiviral = "xi" #rho, xi, psi
+antiviral = "xi" #Option: rho, xi, psi
 remediocount = remediocount_linear
 
 for w in range(num_levels):                   # Loop through each remediocount value

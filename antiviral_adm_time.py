@@ -1,10 +1,10 @@
 from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
 from generate_graphs import * 
 from config_variables import *
+
 # time.time()
 
 antiviral = "psi"  #Options: original; rho; xi; psi  # the original just has to be simulate once   
-day = 3           #Options: 1/1.28/2/3/4/5
 
 for w in range(1):
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)

@@ -23,9 +23,9 @@ elif(population_id == "z"):
     eixo_y_label = "Linfócitos T/\u03bcL"   
 
 # Define the paths to the CSV files for the three datasets
-csv1_ref = os.path.join(base_path, "results", population_path+"_rho.csv")  # Path for the first dataset
-csv2_ref = os.path.join(base_path, "results", population_path+"_xi.csv")   # Path for the second dataset
-csv3_ref = os.path.join(base_path, "results", population_path+"_psi.csv")  # Path for the third dataset
+csv1_ref = os.path.join(base_path, "results_csv", population_path+"_rho.csv")  # Path for the first dataset
+csv2_ref = os.path.join(base_path, "results_csv", population_path+"_xi.csv")   # Path for the second dataset
+csv3_ref = os.path.join(base_path, "results_csv", population_path+"_psi.csv")  # Path for the third dataset
 
 # Generate the graph using the three datasets and save it as a PNG file
 graph_generator_from_3_csv(
