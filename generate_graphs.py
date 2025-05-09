@@ -1,7 +1,7 @@
 from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
 
 def save_file(nome):                       # Saves the file in a specific results folder
-    output_dir = "results"                 # Name of the output folder
+    output_dir = "results_figures"                 # Name of the output folder
     if not os.path.exists(output_dir):     # Checks if the folder exists
         os.makedirs(output_dir)            # Creates the folder if it does not exist
     name = os.path.join(output_dir, nome)  # Full path of the file
@@ -9,7 +9,7 @@ def save_file(nome):                       # Saves the file in a specific result
     return 0
 
 def save_data_to_csv(x_data, y_data, file_name, x_label, y_label): #Saves the data being plotted to a CSV file.
-    output_dir = "results"              # Directory to save the CSV file
+    output_dir = "results_csv"              # Directory to save the CSV file
     if not os.path.exists(output_dir):  # Check if the directory exists
         os.makedirs(output_dir)         # Create the directory if it doesn't exist
 
