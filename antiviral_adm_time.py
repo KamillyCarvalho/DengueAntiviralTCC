@@ -3,8 +3,8 @@ from generate_graphs import *
 from config_variables import *
 # time.time()
 
-antiviral = "psi" #Options: original; rho; xi; psi
-day = 1.28           #Options: 1/1.28/2/3/4/5
+antiviral = "rho"  #Options: original; rho; xi; psi  # the original just has to be simulate once   
+day = 3           #Options: 1/1.28/2/3/4/5
 
 for w in range(1):
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
@@ -52,7 +52,7 @@ for w in range(1):
         v[w,n+1,0] = v[w,n,0] + incremento_v[w,n]
         z[w,n+1,0] = z[w,n,0] + incremento_z[w,n]
 
-save_data_to_csv(t, s[0,:,0], "antiviral_"+antiviral+"_time_s", "Tempo", "Monocitos susceptiveis/uL")
-save_data_to_csv(t, i[0,:,0], "antiviral_"+antiviral+"_time_i", "Tempo", "Monocitos infectados/uL")
-save_data_to_csv(t, v[0,:,0], "antiviral_"+antiviral+"_time_v", "Tempo", "Particulas virais/uL")
-save_data_to_csv(t, z[0,:,0], "antiviral_"+antiviral+"_time_z", "Tempo", "Linfocitos T/uL")
+save_data_to_csv(t, s[0,:,0], "antiviral_"+antiviral+"_time_s_day"+day, "Tempo", "Monocitos susceptiveis/uL")
+save_data_to_csv(t, i[0,:,0], "antiviral_"+antiviral+"_time_i_day"+day, "Tempo", "Monocitos infectados/uL")
+save_data_to_csv(t, v[0,:,0], "antiviral_"+antiviral+"_time_v_day"+day, "Tempo", "Particulas virais/uL")
+save_data_to_csv(t, z[0,:,0], "antiviral_"+antiviral+"_time_z_day"+day, "Tempo", "Linfocitos T/uL")
