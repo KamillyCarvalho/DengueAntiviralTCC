@@ -3,26 +3,35 @@ from generate_graphs import *
 from config_variables import *
 # time.time()
 
-antiviral = "xi" #rho, xi, psi
-remediocount = remediocount_linear
+antiviral = "psi"  #Options: original; rho; xi; psi  # the original just has to be simulate once   
+day = 3           #Options: 1/1.28/2/3/4/5
 
-for w in range(num_levels):                   # Loop through each remediocount value
+for w in range(1):
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
+        if(n <= day*100): #100/133/200/300/400/500
+            remedy_dose = 0
+        else:
+            remedy_dose = 1
         for r in range(kutta):                # Loop through the Runge-Kutta stages
-            if antiviral == "rho":
+            if antiviral == "original":
                 ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
+            elif antiviral == "rho":
+                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
+                dv[w,n,r] = (1 - remedy_dose) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
             elif antiviral == "xi":
-                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
-                di[w,n,r] = (1 - remediocount[w]) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
+                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remedy_dose)
+                di[w,n,r] = (1 - remedy_dose) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
+                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remedy_dose)
                 dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
             elif antiviral == "psi":
                 ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = k * i[w,n,r] - (1 + remediocount[w]) * gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                dv[w,n,r] = k * i[w,n,r] - (1 + remedy_dose) * gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
 
             if r < (kutta - 1):  # Update intermediate stages for Runge-Kutta
@@ -43,14 +52,7 @@ for w in range(num_levels):                   # Loop through each remediocount v
         v[w,n+1,0] = v[w,n,0] + incremento_v[w,n]
         z[w,n+1,0] = z[w,n,0] + incremento_z[w,n]
 
-remediocount = [i * 100 for i in remediocount]  # Scale the remediocount values by multiplying each by 100
-
-graph_2D_generator(t, remediocount, s[:, 128, 0], u'Monócitos susceptíveis/\u03bcL', 'grafico-s')  # Generate a graph for susceptible monocytes (s) over remediocount
-graph_2D_generator(t, remediocount, i[:, 128, 0], u'Monócitos infectados/\u03bcL', 'grafico-i')    # Generate a graph for infected monocytes (i) over remediocount
-graph_2D_generator(t, remediocount, v[:, 128, 0], u'Partículas virais/\u03bcL', 'grafico-v')       # Generate a graph for viral particles (v) over remediocount
-graph_2D_generator(t, remediocount, z[:, 128, 0], u'Linfócitos T/\u03bcL', 'grafico-z')            # Generate a graph for T lymphocytes (z) over remediocount
-
-# save_data_to_csv(remediocount, s[:, 128, 0], "susceptible_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos susceptiveis/uL")
-# save_data_to_csv(remediocount, i[:, 128, 0], "infected_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos infectados/uL")
-# save_data_to_csv(remediocount, v[:, 128, 0], "viral_particles_antiviral_"+antiviral, "Antiviral", "Particulas virais/uL")
-# save_data_to_csv(remediocount, z[:, 128, 0], "t_lymphocytes_antiviral_"+antiviral, "Antiviral", "Linfocitos T/uL")
+save_data_to_csv(t, s[0,:,0], "antiviral_"+antiviral+"_time_s_day"+str(day), "Tempo", "Monocitos susceptiveis/uL")
+save_data_to_csv(t, i[0,:,0], "antiviral_"+antiviral+"_time_i_day"+str(day), "Tempo", "Monocitos infectados/uL")
+save_data_to_csv(t, v[0,:,0], "antiviral_"+antiviral+"_time_v_day"+str(day), "Tempo", "Particulas virais/uL")
+save_data_to_csv(t, z[0,:,0], "antiviral_"+antiviral+"_time_z_day"+str(day), "Tempo", "Linfocitos T/uL")
