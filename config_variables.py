@@ -1,7 +1,5 @@
 from project_libraries import *
 
-day = 3           #Options: 1/1.28/2/3/4/5
-
 # Parameters for the model
 a = 0.003                                            #taxa de invasão bem-sucedida em um monócito susceptível
 wks_mu = 80                                          #monócitos produzidos/dia.uL
