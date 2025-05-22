@@ -1,15 +1,15 @@
 from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
 
-def save_file(nome):                       # Saves the file in a specific results folder
-    output_dir = "results_figures"                 # Name of the output folder
+def save_file(nome,folder_name):                       # Saves the file in a specific results folder
+    output_dir = folder_name        # Name of the output folder
     if not os.path.exists(output_dir):     # Checks if the folder exists
         os.makedirs(output_dir)            # Creates the folder if it does not exist
     name = os.path.join(output_dir, nome)  # Full path of the file
     plt.savefig(name, format='png')        # Saves the graph in PNG format
     return 0
 
-def save_data_to_csv(x_data, y_data, file_name, x_label, y_label): #Saves the data being plotted to a CSV file.
-    output_dir = "results_csv"              # Directory to save the CSV file
+def save_data_to_csv(x_data, y_data, file_name, x_label, y_label,folder_name): #Saves the data being plotted to a CSV file.
+    output_dir = folder_name              # Directory to save the CSV file
     if not os.path.exists(output_dir):  # Check if the directory exists
         os.makedirs(output_dir)         # Create the directory if it doesn't exist
 
@@ -20,8 +20,7 @@ def save_data_to_csv(x_data, y_data, file_name, x_label, y_label): #Saves the da
         for x, y in zip(x_data, y_data):
             file.write(f"{x},{y}\n")          # Write the data rows
 
-def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
-    day = 1 #modificar 
+def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome,folder_name,day_antiviral):
     fig, ax = plt.subplots()                         # Creates a figure and an axis
     ax.set_facecolor("#FFFFFF")                      # Sets the axis background to white
     plt.subplots_adjust(right=0.97, top=0.97)        # Adjusts the position of the subplots
@@ -32,11 +31,11 @@ def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome):
     plt.axvline(day, color = 'b', linestyle = '--', linewidth = 1.3,label = 'Adm. antiviral') # Adds a vertical line indicating the day of antiviral administration
     leg = ax.legend()                                # Creates the legend
     plt.grid(color = 'gray', linestyle = '-', linewidth = 0.15) # Adds a grid to the graph
-    final_name = nome + '[' + str(day) + '].png'     # Final file name, including the day of antiviral administration
-    save_file(final_name)                            # Saves the graph using the save_file function
+    final_name = nome + '[' + str(day_antiviral) + '].png'     # Final file name, including the day of antiviral administration
+    save_file(final_name,folder_name)                            # Saves the graph using the save_file function
     return 0
 
-def graph_2D_generator(t,data1, data2, eixo_y_label, nome):
+def graph_2D_generator(t,data1, data2, eixo_y_label, nome,folder_name):
     fig, ax = plt.subplots()                               # Creates a figure and an axis
     ax.set_facecolor("#FFFFFF")                            # Sets the axis background to white
     eixo_x_label = "Antiviral (em %)"                      # Sets the x-axis label
@@ -46,10 +45,10 @@ def graph_2D_generator(t,data1, data2, eixo_y_label, nome):
     plt.plot(data1, data2, '#00c2b0', label='Dados', linewidth=1.9)  # Plots the data
     plt.grid(color='gray', linestyle='-', linewidth=0.15)  # Adds a grid to the graph
     final_name = nome + '.png'                             # Final file name
-    save_file(final_name)                                  # Saves the graph using the save_file function
+    save_file(final_name,folder_name)                                  # Saves the graph using the save_file function
     return 0
 
-def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_y):
+def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_y,folder_name):
     
     data1 = pd.read_csv(csv1)  # Reads data from CSV files
     data2 = pd.read_csv(csv2)
@@ -62,7 +61,8 @@ def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_
     fig, ax = plt.subplots(figsize=(8, 6))  # Creates the figure and axes
     ax.set_facecolor("#FFFFFF")
     eixo_x_label = "Antiviral (em %)"
-    plt.subplots_adjust(right=0.99, top=0.98)
+    # plt.subplots_adjust(right=0.99, top=0.98)
+    plt.subplots_adjust(right=0.99, top=0.98, left=0.15, bottom=0.12)
     plt.xlabel(eixo_x_label, fontsize=20, labelpad=8)
     plt.ylabel(eixo_y_label, fontsize=20, labelpad=6)
 
@@ -78,10 +78,10 @@ def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_
     plt.legend(fontsize=18)
 
     final_name = nome + '.png'      # Saves the graph
-    save_file(final_name)           # Saves the graph using the save_file function
+    save_file(final_name,folder_name)           # Saves the graph using the save_file function
     return 0
 
-def graph_generator_from_4_csv(day, csv1, csv2, csv3, csv4, eixo_y_label, nome,eixo_x,eixo_y):
+def graph_generator_from_4_csv(day, csv1, csv2, csv3, csv4, eixo_y_label, nome,eixo_x,eixo_y,folder_name):
     
     data1 = pd.read_csv(csv1)  # Reads data from CSV files
     data2 = pd.read_csv(csv2)
@@ -115,5 +115,5 @@ def graph_generator_from_4_csv(day, csv1, csv2, csv3, csv4, eixo_y_label, nome,e
     plt.legend(fontsize=16)
 
     final_name = nome + '.png'      # Saves the graph
-    save_file(final_name)           # Saves the graph using the save_file function
+    save_file(final_name,folder_name)           # Saves the graph using the save_file function
     return 0

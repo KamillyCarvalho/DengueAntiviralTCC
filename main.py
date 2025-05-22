@@ -1,56 +1,54 @@
 from project_libraries import *  # Importing necessary libraries for numerical calculations and data handling
 from generate_graphs import * 
 from config_variables import *
-# time.time()
+from dengue_math_models import *
+from graph_from_csv_data import *
 
-antiviral = "xi" #rho, xi, psi
-remediocount = remediocount_linear
+antiviral_RHO = "rho" 
+antiviral_XI = "xi"
+antiviral_PSI = "psi"
+no_antiviral = "original"
 
-for w in range(num_levels):                   # Loop through each remediocount value
-    for n in range(time_counts - 1):          # Loop through each time step (except the last one)
-        for r in range(kutta):                # Loop through the Runge-Kutta stages
-            if antiviral == "rho":
-                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
-                di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
-                dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
-            elif antiviral == "xi":
-                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
-                di[w,n,r] = (1 - remediocount[w]) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
-                dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
-            elif antiviral == "psi":
-                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
-                di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = k * i[w,n,r] - (1 + remediocount[w]) * gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
-                dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
+antiviral_parameters = [
+    antiviral_RHO, 
+    antiviral_XI,
+    antiviral_PSI,
+]
 
-            if r < (kutta - 1):  # Update intermediate stages for Runge-Kutta
-                s[w,n,r+1] = s[w,n,r] + h1 * ds[w,n,r]
-                i[w,n,r+1] = i[w,n,r] + h1 * di[w,n,r]
-                v[w,n,r+1] = v[w,n,r] + h1 * dv[w,n,r]
-                z[w,n,r+1] = z[w,n,r] + h1 * dz[w,n,r]
+folder_name_for_figures = "results_figures" # Folder to save the figures
+folder_name_for_csv = "results_csv"         # Folder to save the CSV files
+folder_name_for_csv_sensivity = "results_csv_sensivity"         # Folder to save the CSV files
+folder_name_for_csv_no_antiviral = "results_csv_no_antiviral" # Folder to save the CSV files for the original model
 
-        # Increment for S, I, V e T
-        incremento_s[w,n] = (h/6) * (ds[w,n,0] + 2 * ds[w,n,1] + 2 * ds[w,n,2] + ds[w,n,3])  
-        incremento_i[w,n] = (h/6) * (di[w,n,0] + 2 * di[w,n,1] + 2 * di[w,n,2] + di[w,n,3])  
-        incremento_v[w,n] = (h/6) * (dv[w,n,0] + 2 * dv[w,n,1] + 2 * dv[w,n,2] + dv[w,n,3])  
-        incremento_z[w,n] = (h/6) * (dz[w,n,0] + 2 * dz[w,n,1] + 2 * dz[w,n,2] + dz[w,n,3])  
-        
-        # Update S, I, V e T for the next time step
-        s[w,n+1,0] = s[w,n,0] + incremento_s[w,n]  
-        i[w,n+1,0] = i[w,n,0] + incremento_i[w,n]
-        v[w,n+1,0] = v[w,n,0] + incremento_v[w,n]
-        z[w,n+1,0] = z[w,n,0] + incremento_z[w,n]
+population_id = ["s", # susceptible monocytes
+                 "i", # infected monocytes
+                 "v", # viral particles
+                 "z", # T lymphocytes
+]
+print("Starting the simulation for antivirals sensivity analysis...\n")
 
-remediocount = [i * 100 for i in remediocount]  # Scale the remediocount values by multiplying each by 100
+for antiviral in antiviral_parameters:
+    model_1(antiviral,folder_name_for_figures,folder_name_for_csv_sensivity)
+    print("Antiviral: ", antiviral, " - Completed")
 
-graph_2D_generator(t, remediocount, s[:, 128, 0], u'Monócitos susceptíveis/\u03bcL', 'grafico-s')  # Generate a graph for susceptible monocytes (s) over remediocount
-graph_2D_generator(t, remediocount, i[:, 128, 0], u'Monócitos infectados/\u03bcL', 'grafico-i')    # Generate a graph for infected monocytes (i) over remediocount
-graph_2D_generator(t, remediocount, v[:, 128, 0], u'Partículas virais/\u03bcL', 'grafico-v')       # Generate a graph for viral particles (v) over remediocount
-graph_2D_generator(t, remediocount, z[:, 128, 0], u'Linfócitos T/\u03bcL', 'grafico-z')            # Generate a graph for T lymphocytes (z) over remediocount
+print("\nGenerating graphs for antiviral sensivity analysis...\n")
+for population in population_id:
+    generate_graphs_sensivity(population,folder_name_for_figures,folder_name_for_csv_sensivity)
+    print("Figures for population: ", population, " - Completed")
 
-# save_data_to_csv(remediocount, s[:, 128, 0], "susceptible_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos susceptiveis/uL")
-# save_data_to_csv(remediocount, i[:, 128, 0], "infected_monocytes_antiviral_"+antiviral, "Antiviral", "Monocitos infectados/uL")
-# save_data_to_csv(remediocount, v[:, 128, 0], "viral_particles_antiviral_"+antiviral, "Antiviral", "Particulas virais/uL")
-# save_data_to_csv(remediocount, z[:, 128, 0], "t_lymphocytes_antiviral_"+antiviral, "Antiviral", "Linfocitos T/uL")
+antiviral_days = [0.5,1,1.28,2,3,4,5,6] # construir esse vetor p dias
+
+print("Starting the simulation for antiviral by time with no antiviral...\n")
+model_3(no_antiviral,folder_name_for_figures,folder_name_for_csv_no_antiviral)
+
+for day in antiviral_days:
+    print("Starting the simulation for antiviral by time administration at \n",day,"day...\n")
+    folder_name_for_csv_day = folder_name_for_csv+"_day_"+ str(day)         # Folder to save the CSV files
+    for antiviral in antiviral_parameters: 
+        model_2(antiviral,folder_name_for_figures,folder_name_for_csv_day,day)
+        print("Antiviral: ", antiviral, "for day:",day, " - Completed")
+
+    print("\nGenerating graphs to compare antivirals by day...\n")
+    for population in population_id:
+        generate_graphs_to_compare_antiviral_and_original(population,folder_name_for_figures,folder_name_for_csv_day,folder_name_for_csv_no_antiviral,day)
+        print("Figures for population: ", population, " - Completed")
