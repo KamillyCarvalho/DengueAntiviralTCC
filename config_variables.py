@@ -25,8 +25,8 @@ remediocount_exp = [np.exp(-i * 6* 0.001)**-1 for i in range(1001)] # Array ofex
 max_exp = max(remediocount_exp)
 remediocount_exp = [val / max_exp for val in remediocount_exp]  # Normalizing to start at 1 and end at 0
 
-remediocount = remediocount_linear
-num_levels = len(remediocount)                       # Size of the vector that stores the antiviral values
+remedycount = remediocount_linear
+num_levels = len(remedycount)                       # Size of the vector that stores the antiviral values
 
 # Parameters for the Runge-Kutta method
 h = 0.01                                             # Precision parameter for the Runge-Kutta numerical method

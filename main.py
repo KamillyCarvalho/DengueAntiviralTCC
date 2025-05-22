@@ -4,7 +4,6 @@ from config_variables import *
 # time.time()
 
 antiviral = "xi" #Option: rho, xi, psi
-remediocount = remediocount_linear
 
 for w in range(num_levels):                   # Loop through each remediocount value
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
@@ -12,17 +11,17 @@ for w in range(num_levels):                   # Loop through each remediocount v
             if antiviral == "rho":
                 ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = (1 - remediocount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                dv[w,n,r] = (1 - remedycount[w]) * k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
             elif antiviral == "xi":
-                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
-                di[w,n,r] = (1 - remediocount[w]) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remediocount[w])
+                ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remedycount[w])
+                di[w,n,r] = (1 - remedycount[w]) * a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
+                dv[w,n,r] = k * i[w,n,r] - gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r] * (1 - remedycount[w])
                 dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
             elif antiviral == "psi":
                 ds[w,n,r] = wks_mu - alpha * s[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 di[w,n,r] = a * s[w,n,r] * v[w,n,r] - beta * i[w,n,r] - nu * i[w,n,r] * z[w,n,r]
-                dv[w,n,r] = k * i[w,n,r] - (1 + remediocount[w]) * gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
+                dv[w,n,r] = k * i[w,n,r] - (1 + remedycount[w]) * gamma * v[w,n,r] - a * s[w,n,r] * v[w,n,r]
                 dz[w,n,r] = wks_eta + wks_c * i[w,n,r] + wks_d * i[w,n,r] * z[w,n,r] - delta * z[w,n,r]
 
             if r < (kutta - 1):  # Update intermediate stages for Runge-Kutta
@@ -43,7 +42,7 @@ for w in range(num_levels):                   # Loop through each remediocount v
         v[w,n+1,0] = v[w,n,0] + incremento_v[w,n]
         z[w,n+1,0] = z[w,n,0] + incremento_z[w,n]
 
-remediocount = [i * 100 for i in remediocount]  # Scale the remediocount values by multiplying each by 100
+remediocount = [i * 100 for i in remedycount]  # Scale the remediocount values by multiplying each by 100
 
 graph_2D_generator(t, remediocount, s[:, 128, 0], u'Monócitos susceptíveis/\u03bcL', 'grafico-s')  # Generate a graph for susceptible monocytes (s) over remediocount
 graph_2D_generator(t, remediocount, i[:, 128, 0], u'Monócitos infectados/\u03bcL', 'grafico-i')    # Generate a graph for infected monocytes (i) over remediocount
