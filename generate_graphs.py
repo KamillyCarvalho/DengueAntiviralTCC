@@ -70,9 +70,9 @@ def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_
     ax.tick_params(axis='x', labelsize=16)
     ax.tick_params(axis='y', labelsize=16)
 
-    plt.plot(x1, y1, '#00FF00', label='Antiviral 1', linewidth=3)  # Plots the three curves
-    plt.plot(x2, y2, '#FFA500', label='Antiviral 2', linewidth=3)
-    plt.plot(x3, y3, '#0000FF', label='Antiviral 3', linewidth=3)
+    plt.plot(x1, y1, '#00FF00', label=r'Antiviral $\rho$', linewidth=3)  # Plots the three curves
+    plt.plot(x2, y2, '#FFA500', label=r'Antiviral $\xi$', linewidth=3)
+    plt.plot(x3, y3, '#0000FF', label=r'Antiviral $\psi$', linewidth=3)
 
     plt.grid(color='gray', linestyle='--', linewidth=0.3) # Adds grid and legend
     plt.legend(fontsize=18)
@@ -104,11 +104,11 @@ def graph_generator_from_4_csv(day, csv1, csv2, csv3, csv4, eixo_y_label, nome,e
     ax.tick_params(axis='x', labelsize=16)
     ax.tick_params(axis='y', labelsize=16)
 
-    plt.plot(x1, y1, '#FF0000', label='Original', linewidth=3)
-    plt.plot(x2, y2, '#00FF00', label='Antiviral 1', linewidth=3)  # Plots the three curves
-    plt.plot(x3, y3, '#FFA500', label='Antiviral 2', linewidth=3)
-    plt.plot(x4, y4, '#0000FF', label='Antiviral 3', linewidth=3)
-    
+    plt.plot(x2, y2, '#00FF00', label=r'Antiviral $\rho$', linewidth=3)  # Plots the three curves
+    plt.plot(x3, y3, '#FFA500', label=r'Antiviral $\xi$', linewidth=3)
+    plt.plot(x4, y4, '#0000FF', label=r'Antiviral $\psi$', linewidth=3)
+    plt.plot(x1, y1, "#CC1100", label='Original', linewidth=3)
+
     plt.axvline(day, color = '#FF00FF', linestyle = '--', linewidth = 1.3,label = 'Início')
 
     plt.grid(color='gray', linestyle='--', linewidth=0.3) # Adds grid and legend
