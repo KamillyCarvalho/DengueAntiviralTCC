@@ -29,23 +29,32 @@ def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome,folder_name,day_antivira
     plt.plot(t,dados[0,:,0],'#00c2b0',label = 'Com antiviral',linewidth = '1.9')  # Plots the data with antiviral
     plt.plot(t,dados2[0,:,0],'#ff8201',label = 'Sem antiviral',linewidth = '1.9') # Plots the data without antiviral
     plt.axvline(day, color = 'b', linestyle = '--', linewidth = 1.3,label = 'Adm. antiviral') # Adds a vertical line indicating the day of antiviral administration
+    plt.tight_layout()
     leg = ax.legend()                                # Creates the legend
     plt.grid(color = 'gray', linestyle = '-', linewidth = 0.15) # Adds a grid to the graph
     final_name = nome + '[' + str(day_antiviral) + '].png'     # Final file name, including the day of antiviral administration
     save_file(final_name,folder_name)                            # Saves the graph using the save_file function
+    plt.close(fig)  # Closes the figure to free up memory
     return 0
 
 def graph_2D_generator(t,data1, data2, eixo_y_label, nome,folder_name):
-    fig, ax = plt.subplots()                               # Creates a figure and an axis
-    ax.set_facecolor("#FFFFFF")                            # Sets the axis background to white
-    eixo_x_label = "Antiviral (em %)"                      # Sets the x-axis label
-    plt.subplots_adjust(right=0.97, top=0.97)              # Adjusts the position of the subplots
-    plt.xlabel(eixo_x_label, fontsize=12, labelpad=4)      # Sets the x-axis label
-    plt.ylabel(eixo_y_label, fontsize=12, labelpad=6)      # Sets the y-axis label
-    plt.plot(data1, data2, '#00c2b0', label='Dados', linewidth=1.9)  # Plots the data
+    fig, ax = plt.subplots(figsize=(8, 6))                               # Creates a figure and an axis
+    ax.set_facecolor("#FFFFFF")                          # Sets the axis background to white
+    eixo_x_label = "Tempo (em dias)"                       # Sets the x-axis label
+    
+    plt.subplots_adjust(right=0.99, top=0.98, left=0.15, bottom=0.12)
+    plt.xlabel(eixo_x_label, fontsize=20, labelpad=8)
+    plt.ylabel(eixo_y_label, fontsize=20, labelpad=1)
+    plt.plot(data1, data2, "#CC1100", label='Dados', linewidth=3)  # Plots the data
     plt.grid(color='gray', linestyle='-', linewidth=0.15)  # Adds a grid to the graph
+
+    ax.tick_params(axis='x', labelsize=16) # Increase the font size of the axis tick labels
+    ax.tick_params(axis='y', labelsize=16)
+    plt.tight_layout()
+
     final_name = nome + '.png'                             # Final file name
     save_file(final_name,folder_name)                                  # Saves the graph using the save_file function
+    plt.close(fig)  # Closes the figure to free up memory
     return 0
 
 def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_y,folder_name):
@@ -60,14 +69,13 @@ def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_
 
     fig, ax = plt.subplots(figsize=(8, 6))  # Creates the figure and axes
     ax.set_facecolor("#FFFFFF")
-    eixo_x_label = "Antiviral (em %)"
+    eixo_x_label = "Eficácia antiviral (em %)"
     # plt.subplots_adjust(right=0.99, top=0.98)
     plt.subplots_adjust(right=0.99, top=0.98, left=0.15, bottom=0.12)
     plt.xlabel(eixo_x_label, fontsize=20, labelpad=8)
     plt.ylabel(eixo_y_label, fontsize=20, labelpad=6)
 
-    # Aumenta o tamanho da fonte dos valores nos eixos
-    ax.tick_params(axis='x', labelsize=16)
+    ax.tick_params(axis='x', labelsize=16) # Increase the font size of the axis tick labels
     ax.tick_params(axis='y', labelsize=16)
 
     plt.plot(x1, y1, '#00FF00', label=r'Antiviral $\rho$', linewidth=3)  # Plots the three curves
@@ -76,9 +84,11 @@ def graph_generator_from_3_csv(csv1, csv2, csv3, eixo_y_label, nome,eixo_x,eixo_
 
     plt.grid(color='gray', linestyle='--', linewidth=0.3) # Adds grid and legend
     plt.legend(fontsize=18)
+    plt.tight_layout()
 
     final_name = nome + '.png'      # Saves the graph
     save_file(final_name,folder_name)           # Saves the graph using the save_file function
+    plt.close(fig)  # Closes the figure to free up memory
     return 0
 
 def graph_generator_from_4_csv(day, csv1, csv2, csv3, csv4, eixo_y_label, nome,eixo_x,eixo_y,folder_name):
@@ -100,8 +110,7 @@ def graph_generator_from_4_csv(day, csv1, csv2, csv3, csv4, eixo_y_label, nome,e
     plt.xlabel(eixo_x_label, fontsize=20, labelpad=8)
     plt.ylabel(eixo_y_label, fontsize=20, labelpad=1)
 
-    # Aumenta o tamanho da fonte dos valores nos eixos
-    ax.tick_params(axis='x', labelsize=16)
+    ax.tick_params(axis='x', labelsize=16) # Increase the font size of the axis tick labels
     ax.tick_params(axis='y', labelsize=16)
 
     plt.plot(x2, y2, '#00FF00', label=r'Antiviral $\rho$', linewidth=3)  # Plots the three curves
@@ -113,7 +122,34 @@ def graph_generator_from_4_csv(day, csv1, csv2, csv3, csv4, eixo_y_label, nome,e
 
     plt.grid(color='gray', linestyle='--', linewidth=0.3) # Adds grid and legend
     plt.legend(fontsize=16)
+    plt.tight_layout()
 
     final_name = nome + '.png'      # Saves the graph
     save_file(final_name,folder_name)           # Saves the graph using the save_file function
+    plt.close(fig)  # Closes the figure to free up memory
     return 0
+
+def antiviral_behavior_graph(response, percent_doses, data, label,folder_name):
+    fig, ax = plt.subplots(figsize=(8, 6))  # Creates the figure and axes
+    ax.set_facecolor("#FFFFFF")
+    
+    plt.plot(response*100, percent_doses,label=f"{label}",color=data['color'],  linestyle=data["ls"], linewidth=3)  # Plot the dose-response curve
+    plt.ylabel("Concentração relativa (%)", fontsize=20)  # Set y-axis label
+    plt.xlabel("Eficácia antiviral (em %)", fontsize=20)  # Set x-axis label
+    # plt.title("Curva Dose-Resposta: Eficácia antiviral normalizada", fontsize=14)  # (Optional) Set the plot title
+    plt.axvline(50, color='#FFD700', linestyle='--', label=f"Eficácia 50% (EC$_{{50}}$ ≈ {data['ec50']*1000:.1f} µg/mL)", linewidth=2)  # Draw a vertical line at 50% efficacy
+    
+    ax.tick_params(axis='x', labelsize=16) # Increase the font size of the axis tick labels
+    ax.tick_params(axis='y', labelsize=16)
+
+    plt.legend(fontsize=16)  # Show the legend
+    plt.grid(color='gray', linestyle='--', linewidth=0.3) # Adds grid and legend    
+    
+    plt.xlim(0, 100)  # Set x-axis limits
+    plt.ylim(0, 100)  # Set y-axis limits
+    plt.tight_layout()  # Adjust layout to prevent overlap
+    
+    final_name = "antiviral_behavior_graph.png"  # Name of the output file
+    save_file(final_name, folder_name)  # Save the figure using the save_file function
+    plt.close(fig)  # Close the figure to free up memory
+    return 0 
