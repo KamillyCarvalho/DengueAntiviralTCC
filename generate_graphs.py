@@ -28,7 +28,7 @@ def graph_generator_3(eixo_x,eixo_y,t,dados,dados2,nome,folder_name,day_antivira
     plt.ylabel(eixo_y,  fontsize = 12, labelpad = 6) # Sets the y-axis label
     plt.plot(t,dados[0,:,0],'#00c2b0',label = 'Com antiviral',linewidth = '1.9')  # Plots the data with antiviral
     plt.plot(t,dados2[0,:,0],'#ff8201',label = 'Sem antiviral',linewidth = '1.9') # Plots the data without antiviral
-    plt.axvline(day, color = 'b', linestyle = '--', linewidth = 1.3,label = 'Adm. antiviral') # Adds a vertical line indicating the day of antiviral administration
+    plt.axvline(day_antiviral, color = 'b', linestyle = '--', linewidth = 1.3,label = 'Adm. antiviral') # Adds a vertical line indicating the day of antiviral administration
     plt.tight_layout()
     leg = ax.legend()                                # Creates the legend
     plt.grid(color = 'gray', linestyle = '-', linewidth = 0.15) # Adds a grid to the graph

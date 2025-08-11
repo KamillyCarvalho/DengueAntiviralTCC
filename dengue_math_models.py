@@ -4,6 +4,7 @@ from config_variables import *
 
 # time.time()
 
+#model for antivirals sensivity analysis
 def model_1(antiviral,folder_name_for_figures,folder_name_for_csv):
     for w in range(num_levels):                   # Loop through each remediocount value
         for n in range(time_counts - 1):          # Loop through each time step (except the last one)
@@ -55,6 +56,7 @@ def model_1(antiviral,folder_name_for_figures,folder_name_for_csv):
     save_data_to_csv(remediocount, v[:, 127, 0], "viral_particles_antiviral_"+antiviral, "Antiviral", "Particulas virais/uL",folder_name_for_csv)
     save_data_to_csv(remediocount, z[:, 127, 0], "t_lymphocytes_antiviral_"+antiviral, "Antiviral", "Linfocitos T/uL",folder_name_for_csv)
 
+# model for for the antiviral by time (day) administration
 def model_2(antiviral,folder_name_for_figures,folder_name_for_csv,day):
     w=0
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
@@ -102,6 +104,7 @@ def model_2(antiviral,folder_name_for_figures,folder_name_for_csv,day):
     save_data_to_csv(t, v[0,:,0], "antiviral_"+antiviral+"_time_v_day"+str(day), "Tempo", "Particulas virais/uL",folder_name_for_csv)
     save_data_to_csv(t, z[0,:,0], "antiviral_"+antiviral+"_time_z_day"+str(day), "Tempo", "Linfocitos T/uL",folder_name_for_csv)
 
+# model with no antiviral
 def model_3(antiviral,folder_name_for_figures,folder_name_for_csv):
     w=0
     for n in range(time_counts - 1):          # Loop through each time step (except the last one)
@@ -134,7 +137,7 @@ def model_3(antiviral,folder_name_for_figures,folder_name_for_csv):
     save_data_to_csv(t, v[0,:,0], "antiviral_"+antiviral+"_time_v", "Tempo", "Particulas virais/uL",folder_name_for_csv)
     save_data_to_csv(t, z[0,:,0], "antiviral_"+antiviral+"_time_z", "Tempo", "Linfocitos T/uL",folder_name_for_csv)
 
-    graph_2D_generator(t, t, s[0, :, 0], u'Monócitos susceptíveis/\u03bcL', 'graph-s-original',folder_name_for_figures)  # Generate a graph for susceptible monocytes (s) over remediocount
+    graph_2D_generator(t, t, s[0, :, 0], u'Monócitos suscetíveis/\u03bcL', 'graph-s-original',folder_name_for_figures)  # Generate a graph for susceptible monocytes (s) over remediocount
     graph_2D_generator(t, t, i[0, :, 0], u'Monócitos infectados/\u03bcL', 'graph-i-original',folder_name_for_figures)    # Generate a graph for infected monocytes (i) over remediocount
     graph_2D_generator(t, t, v[0, :, 0], u'Partículas virais/\u03bcL', 'graph-v-original',folder_name_for_figures)       # Generate a graph for viral particles (v) over remediocount
     graph_2D_generator(t, t, z[0, :, 0], u'Linfócitos T/\u03bcL', 'graph-z-original',folder_name_for_figures)            # Generate a graph for T lymphocytes (z) over remediocount
