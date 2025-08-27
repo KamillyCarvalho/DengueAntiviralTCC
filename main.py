@@ -28,13 +28,16 @@ population_id = ["s", # susceptible monocytes
 
 time_inicial = time.time() # Start the timer
 
+# Starting the simulation for the original model with no antiviral
+print("\nStarting the simulation for antiviral by time with no antiviral...\n")
+model_3(no_antiviral,folder_name_for_figures,folder_name_for_csv_no_antiviral)
+
 # Starting the simulation for the antiviral behavior graph
 print("\nStarting the simulation for antivirals behavior graph...\n")
-
 antiviral_behavior_graph(response, percent_doses, data, label,folder_name_for_figures)
-print("Simulation for antivirals behavior graph completed!")
+print("Simulation for antivirals behavior graph completed!\n")
 
-# Starting the simulation for the original model
+# Starting the simulation for antivirals sensivity analysis
 print("\nStarting the simulation for antivirals sensivity analysis...\n")
 
 for antiviral in antiviral_parameters:
@@ -48,9 +51,6 @@ for population in population_id:
 
 # Starting the simulation for the antiviral by time (day) administration
 antiviral_days = [0.5,1,1.27,2,3,4,5,6] # construir esse vetor p dias
-
-print("\nStarting the simulation for antiviral by time with no antiviral...\n")
-model_3(no_antiviral,folder_name_for_figures,folder_name_for_csv_no_antiviral)
 
 for day in antiviral_days:
     print("\nStarting the simulation for antiviral by time administration at \n",day,"day...\n")
