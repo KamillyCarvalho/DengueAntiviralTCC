@@ -15,10 +15,10 @@ antiviral_parameters = [
     antiviral_PSI,
 ]
 
-folder_name_for_figures = "results_figures" # Folder to save the figures
-folder_name_for_csv = "results_csv"         # Folder to save the CSV files
-folder_name_for_csv_sensivity = "results_csv_sensivity"         # Folder to save the CSV files
-folder_name_for_csv_no_antiviral = "results_csv_no_antiviral" # Folder to save the CSV files for the original model
+folder_name_for_figures = "results/results_figures" # Folder to save the figures
+folder_name_for_csv = "results/results_csv"         # Folder to save the CSV files
+folder_name_for_csv_sensivity = "results/results_csv_sensivity"         # Folder to save the CSV files
+folder_name_for_csv_no_antiviral = "results/results_csv_no_antiviral" # Folder to save the CSV files for the original model
 
 population_id = ["s", # susceptible monocytes
                  "i", # infected monocytes
